@@ -58,7 +58,7 @@ class Form(models.Model):
             f.position = i
 
     def save(self, *args, **kwargs):
-        self.slug = slugify(self.name.encode('trans')).replace("-", "_")[:50]
+        self.slug = slugify(unicode(self.name).encode('trans')).replace("-", "_")[:50]
         for field in self.fields:
             field.save()
         super(Form, self).save(*args, **kwargs)
@@ -148,7 +148,7 @@ class Field(models.Model):
             c.position = i
 
     def save(self, *args, **kwargs):
-        self.slug = slugify(self.label.encode('trans')).replace("-", "_")[:50]
+        self.slug = slugify(unicode(self.label).encode('trans')).replace("-", "_")[:50]
         for choice in self.choices:
             choice.save()
         super(Field, self).save(*args, **kwargs)
@@ -226,5 +226,5 @@ class Choice(models.Model):
         ordering = ("field__form__name", "position")
 
     def save(self, *args, **kwargs):
-        self.slug = slugify(self.label.encode('trans')).replace("-", "_")[:50]
+        self.slug = slugify(unicode(self.label).encode('trans')).replace("-", "_")[:50]
         super(Choice, self).save(*args, **kwargs)
